@@ -19,7 +19,8 @@ model products {
   id          Int     @id @default(autoincrement())
   name        String
   image_url   String?
-  category_id Int
+  price       Int @default(20000)
+  category_id Int 
   createdAt   DateTime @default(now())
   contents    String?
 

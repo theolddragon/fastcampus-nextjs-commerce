@@ -6,7 +6,10 @@ const nextConfig = {
     emotion: true,
   },
   images: {
-    domains: ['picsum.photos'],
+    domains: ['picsum.photos', 'raw.githubusercontent.com', 'cdn.shopify.com'],
+  },
+  experimental: {
+    optimizePackageImports: ['@mantine/core', '@mantine/hooks'],
   },
 }
 
