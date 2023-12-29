@@ -599,6 +599,31 @@
   dependencies:
     tslib "^2.4.0"
 
+"@tabler/icons-react@^2.44.0":
+  version "2.44.0"
+  resolved "https://registry.yarnpkg.com/@tabler/icons-react/-/icons-react-2.44.0.tgz#8119d3b6321ebaf98400fba7932e280d008125f8"
+  integrity sha512-10qwrqJ/QBNgY4YYer9PjWmCwm3wv9aVK8kGAkFKkwu6UJURVLZ2ea+oFh5j6vSXnA1zMtUG+X8anR5fZ67Isw==
+  dependencies:
+    "@tabler/icons" "2.44.0"
+    prop-types "^15.7.2"
+
+"@tabler/icons@2.44.0":
+  version "2.44.0"
+  resolved "https://registry.yarnpkg.com/@tabler/icons/-/icons-2.44.0.tgz#9f3cf86150b23e84a6eaf9d29ab2b2aaa8c7eed6"
+  integrity sha512-WPPtihDcAwEm1QZM9MXQw6+r/R2/qx7KMU1eegsi9DsqBLAb0W2kbt6e/syvd6j9c+6XNpRVBW1ziGqSWQAWOg==
+
+"@tanstack/query-core@5.14.2":
+  version "5.14.2"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-5.14.2.tgz#ef0c1a93e142d5cce90b0ac2d0333a88fc0fbb95"
+  integrity sha512-QmoJvC72sSWs3hgGis8JdmlDvqLfYGWUK4UG6OR9Q6t28JMN9m2FDwKPqoSJ9YVocELCSjMt/FGjEiLfk8000Q==
+
+"@tanstack/react-query@^5.15.0":
+  version "5.15.0"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-5.15.0.tgz#dd40e8845c37b5b11bdc636bd47a392b4be64ec2"
+  integrity sha512-hWLuZ2Hg9HzmHJ3VtWzhvK+sTxPz+rIIujYUxzapPoU9PPXe7NCm8k8EaKpm+Sc65FM7Dljfk/Ov9yYMhwg9vw==
+  dependencies:
+    "@tanstack/query-core" "5.14.2"
+
 "@tsconfig/node10@^1.0.7":
   version "1.0.9"
   resolved "https://registry.yarnpkg.com/@tsconfig/node10/-/node10-1.0.9.tgz#df4907fc07a886922637b15e02d4cebc4c0021b2"
