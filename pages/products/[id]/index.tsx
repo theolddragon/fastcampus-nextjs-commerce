@@ -1,5 +1,10 @@
 import Carousel from 'nuka-carousel'
 import Image from 'next/image'
+import React, { useEffect, useState } from 'react'
+import Head from 'next/head'
+import CustomEditor from '@components/Editor'
+import { useRouter } from 'next/router'
+import { convertFromRaw, convertToRaw, EditorState } from 'draft-js'
 
 const images = [
   {
@@ -32,19 +37,40 @@ const images = [
   },
 ]
 
-import React, { useState } from 'react'
-
 export default function ProductsCarousel() {
-  const [index, setIndex] = useState(0)
+  const [selectImageIndex, setSelectImageIndex] = useState(0)
+
+  const router = useRouter()
+  const { id: productId } = router.query
+  const [editorState, setEditorState] = useState<EditorState | undefined>(
+    undefined,
+  )
+
+  useEffect(() => {
+    if (productId != null) {
+      fetch(`/api/get-product?id=${productId}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.item && data.item.contents) {
+            setEditorState(
+              EditorState.createWithContent(
+                convertFromRaw(JSON.parse(data.item.contents)),
+              ),
+            )
+          } else {
+            setEditorState(EditorState.createEmpty())
+          }
+        })
+    }
+  }, [productId])
+
   return (
     <>
       <Carousel
         animation="fade"
-        autoplay
         withoutControls
         wrapAround
-        speed={30}
-        slideIndex={index}
+        slideIndex={selectImageIndex}
       >
         {images.map((image) => (
           <Image
@@ -66,11 +92,14 @@ export default function ProductsCarousel() {
         }}
       >
         {images.map((item, idx) => (
-          <div key={idx} onClick={() => setIndex(idx)}>
+          <div key={idx} onClick={() => setSelectImageIndex(idx)}>
             <Image src={item.original} alt="image" width={100} height={60} />
           </div>
         ))}
       </div>
+      {editorState != null && (
+        <CustomEditor editorState={editorState} readOnly />
+      )}
     </>
   )
 }
