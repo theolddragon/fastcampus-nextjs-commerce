@@ -146,7 +146,7 @@ export default function ProductPage() {
         <Pagination
           value={activePage}
           onChange={setPage}
-          total={total}
+          total={total ?? 0}
           className="m-auto"
         />
       </div>
