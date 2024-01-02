@@ -7,8 +7,10 @@ import { Input, Pagination, SegmentedControl, Select } from '@mantine/core'
 import { CATEGORY_MAP, FILTERS, TAKE } from '@/constants/products'
 import useDebounce from '@/hooks/useDebounce'
 import { useQuery } from '@tanstack/react-query'
+import { useSession } from 'next-auth/react'
 
 export default function ProductPage() {
+  const { data: session } = useSession()
   const [activePage, setPage] = useState(1)
   // const [getTotal, setTotal] = useState(0)
   // const [getCategories, setCategories] = useState<categories[]>([])
@@ -89,6 +91,7 @@ export default function ProductPage() {
 
   return (
     <div className="px-36 mt-36 mb-36">
+      {session && <p>안녕하세요. {session.user?.name} 님</p>}
       <div className="mb-4">
         <Input
           icon={<IconSearch />}
