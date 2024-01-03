@@ -8,8 +8,10 @@ import { CATEGORY_MAP, FILTERS, TAKE } from '@/constants/products'
 import useDebounce from '@/hooks/useDebounce'
 import { useQuery } from '@tanstack/react-query'
 import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
 
 export default function ProductPage() {
+  const router = useRouter()
   const { data: session } = useSession()
   const [activePage, setPage] = useState(1)
   // const [getTotal, setTotal] = useState(0)
@@ -122,7 +124,11 @@ export default function ProductPage() {
       {products && (
         <div className="grid grid-cols-3 gap-5">
           {products.map((product) => (
-            <div key={product.id} style={{ maxWidth: 310 }}>
+            <div
+              key={product.id}
+              style={{ maxWidth: 310 }}
+              onClick={() => router.push(`/products/${product.id}`)}
+            >
               <Image
                 src={product.image_url ?? ''}
                 className="rounded"

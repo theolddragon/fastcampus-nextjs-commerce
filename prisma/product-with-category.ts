@@ -400,7 +400,7 @@ const hoodie = [
     contents: `{"blocks":[{"key":"5fi56","text":"본 제품은 오가닉 소재입니다. 어느 스타일에도 잘 어울리는 힙한 감성을 품고 있습니다.","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}`,
     category_id: 5,
     image_url:
-      'https://cdn.shopify.com/s/files/1/0282/5850/products/apparel_tops_newbalance_made-in-usa-core-hoodie_MT21540.color_athletic-grey.view_1_720x.jpg',
+      'https://s3.ap-northeast-2.amazonaws.com/cdn.sell-up.co.kr/feeds/origin/1703798673965_cb6776c7-62c5-4c41-928d-889ec67b36ff',
     price: getRandom(300000, 100000),
   },
   {
