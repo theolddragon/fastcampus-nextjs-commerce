@@ -1,11 +1,11 @@
-import { ChangeEvent, Dispatch, SetStateAction, useRef, useState } from 'react'
 import {
-  createStyles,
+  ActionIcon,
   NumberInput,
   NumberInputHandlers,
-  ActionIcon,
+  createStyles,
 } from '@mantine/core'
 import { IconMinus, IconPlus } from '@tabler/icons-react'
+import { Dispatch, SetStateAction, useRef } from 'react'
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -65,8 +65,11 @@ export function CountControl({
   const { classes } = useStyles()
   const handlers = useRef<NumberInputHandlers>(null)
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setValue(Number(event.target.value))
+  const handleChange = (value: number | '') => {
+    if (value === '') {
+      return
+    }
+    setValue(Number(value))
   }
   return (
     <div className={classes.wrapper}>

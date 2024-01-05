@@ -7,7 +7,7 @@ import CustomEditor from '@components/Editor'
 import { useRouter } from 'next/router'
 import { convertFromRaw, convertToRaw, EditorState } from 'draft-js'
 import { GetServerSidePropsContext } from 'next'
-import { products } from '@prisma/client'
+import { Cart, products } from '@prisma/client'
 import { CATEGORY_MAP } from '@/constants/products'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Button } from '@mantine/core'
@@ -15,13 +15,22 @@ import { IconHeart, IconHeartbeat, IconShoppingCart } from '@tabler/icons-react'
 import { useSession } from 'next-auth/react'
 import { GetWishlist } from '@/pages/api/get-wishlist'
 import { CountControl } from '@components/CountControl'
+import { CART_QUERY_KEY } from '@/pages/cart'
+
+const WISHLIST_QUERY_KEY = `/api/get-wishlist`
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const product = await fetch(
-    `http://localhost:3000/api/get-product?id=${context.params?.id}`,
+    `${process.env.NEXTAUTH_URL}/api/get-product?id=${context.params?.id}`,
+    {
+      headers: {
+        Accept: 'application/json',
+      },
+    },
   )
     .then((res) => res.json())
     .then((data) => data.item)
+
   return {
     props: {
       product: { ...product, images: [product?.image_url, product?.image_url] },
@@ -29,9 +38,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   }
 }
 
-const WISHLIST_QUERY_KEY = `/api/get-wishlist`
-
-export default function ProductsCarousel(props: {
+export default function ProductIndex(props: {
   product: products & { images: string[] }
 }) {
   const [selectImageIndex, setSelectImageIndex] = useState(0)
@@ -41,6 +48,7 @@ export default function ProductsCarousel(props: {
   const router = useRouter()
   const { id: productId } = router.query
   const product = props.product
+  console.log(product)
 
   const [editorState, setEditorState] = useState<EditorState | undefined>(() =>
     product?.contents
@@ -101,18 +109,44 @@ export default function ProductsCarousel(props: {
     },
   })
 
+  const { mutate: addCart } = useMutation<
+    unknown,
+    unknown,
+    Omit<Cart, 'id' | 'userId'>,
+    any
+  >({
+    mutationFn: (item) =>
+      fetch('/api/add-cart', {
+        method: 'POST',
+        body: JSON.stringify({ item }),
+      })
+        .then((data) => data.json())
+        .then((res) => res.items),
+    onMutate: () => {
+      queryClient.invalidateQueries({
+        queryKey: [CART_QUERY_KEY],
+      })
+    },
+    onSuccess: () => {
+      router.push('/cart')
+    },
+  })
+
   const validate = (type: 'cart' | 'order') => {
     if (quantity == null) {
       alert('최소 수량을 선택하세요.')
       return
     }
 
-    // TODO: 장바구니에 등록하는 기능 추가
-
-    router.push('/cart')
+    if (type === 'cart') {
+      addCart({
+        productId: product.id,
+        quantity: quantity,
+        amount: product.price * quantity,
+      })
+    }
   }
 
-  console.log(wishlist)
   const isWished =
     wishlist != null && productId != null
       ? wishlist.includes(String(productId))
